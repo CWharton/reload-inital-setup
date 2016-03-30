@@ -46,24 +46,23 @@ If not "%_bginfo%"=="1" If not "%_bginfo%"=="2" goto bginfoloop
 ECHO.
 ECHO Install software manager (chocolatey) and other software? & ECHO. 1) Yes & ECHO. 2) No & SET /p _updatemgr=
 If not "%_updatemgr%"=="1" If not "%_updatemgr%"=="2" goto updatemgr
-IF "%_updatemgr%"=="1" (
 
-:javaloop
-   ECHO.
-   ECHO Install Java? & ECHO. 1. Yes & ECHO. 2. No & SET /p _java=
-   If not "%_java%"=="1" If not "%_java%"=="2" goto javaloop
+IF "%_updatemgr%"=="1" (
+:javaseloop
+ECHO.
+ECHO Install Java? & ECHO. 1. Yes & ECHO. 2. No & SET /p _java=
+If not "%_java%"=="1" If not "%_java%"=="2" goto javaseloop
 
 :thunderbirdloop
-   ECHO.
-   ECHO Install Thunderbird? & ECHO. 1. Yes & ECHO. 2. No & SET /p _thunderbird=
-   If not "%_thunderbird%"=="1" If not "%_thunderbird%"=="2" goto thunderbirdloop
+ECHO.
+ECHO Install Thunderbird? & ECHO. 1. Yes & ECHO. 2. No & SET /p _thunderbird=
+If not "%_thunderbird%"=="1" If not "%_thunderbird%"=="2" goto thunderbirdloop
 
 :firefoxloop
-   ECHO.
-   ECHO Install FireFox? & ECHO. 1. Yes & ECHO. 2. No & SET /p _firefox=
-   If not "%_firefox%"=="1" If not "%_firefox%"=="2" goto firefoxloop
+ECHO.
+ECHO Install FireFox? & ECHO. 1. Yes & ECHO. 2. No & SET /p _firefox=
+If not "%_firefox%"=="1" If not "%_firefox%"=="2" goto firefoxloop
 )
-
 
 :updateloop
 ECHO.
@@ -161,13 +160,19 @@ IF "%_bginfo%"=="1" (
 
 :: Software Manager
 IF "%_updatemgr%"=="1" (
-   CALL scripts\install_chocolatey.bat
+   CALL %~dp0\scripts\install_chocolatey.bat
    ECHO. -= Installing additional software
-   IF "%_java%"=="1" choco install jre8
-   IF "%_thunderbird%"=="1" choco install thunderbird
-   IF "%_firefox%"=="1" choco install firefox
-   CHOCO INSTALL -y flashplayerplugin 7zip adobereader notepadplusplus ccleaner libreoffice ultravnc
+   IF "%_java%"=="1" choco install -y jre8
+   IF "%_thunderbird%"=="1" choco install -y thunderbird
+   IF "%_firefox%"=="1" choco install -y firefox
+   CHOCO INSTALL -y flashplayerplugin 7zip notepadplusplus libreoffice ccleaner ultravnc adobereader
    COPY /y "%REMOTEDIR%\uvnc\ultravnc.ini" "%PROGRAMFILES%\uvnc bvba\UltraVNC\UltraVNC.ini
+
+   DEL "%HOMEPATH%\Desktop\UltraVNC Server.lnk"
+   DEL "%HOMEPATH%\Desktop\uvnc_settings.lnk"
+   DEL "%HOMEPATH%\Desktop\vncviewer.exe.lnk"
+   DEL "C:\Users\Public\Desktop\CCleaner.lnk"
+   DEL "C:\Users\Public\Desktop\Acrobat Reader DC.lnk"
 )
 
 :: Windows Update

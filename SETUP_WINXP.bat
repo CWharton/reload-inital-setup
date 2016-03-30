@@ -42,11 +42,10 @@ ECHO.
 ECHO Install software manager (chocolatey) and other software? & ECHO. 1) Yes & ECHO. 2) No & SET /p _updatemgr=
 If not "%_updatemgr%"=="1" If not "%_updatemgr%"=="2" goto updatemgr
 IF "%_updatemgr%"=="1" (
-
-:javaloop
+:javaseloop
    ECHO.
    ECHO Install Java? & ECHO. 1. Yes & ECHO. 2. No & SET /p _java=
-   If not "%_java%"=="1" If not "%_java%"=="2" goto javaloop
+   If not "%_java%"=="1" If not "%_java%"=="2" goto javaseloop
 
 :thunderbirdloop
    ECHO.
@@ -143,7 +142,7 @@ IF "%_updatemgr%"=="1" (
    IF "%_java%"=="1" choco install -y jre8
    IF "%_thunderbird%"=="1" choco install -y thunderbird
    IF "%_firefox%"=="1" choco install -y firefox
-   CHOCO INSTALL -y flashplayerplugin 7zip adobereader notepadplusplus ccleaner libreoffice ultravnc
+   CHOCO INSTALL -y flashplayerplugin 7zip adobereader libreoffice ultravnc
    COPY /y "%REMOTEDIR%\uvnc\ultravnc.ini" "%PROGRAMFILES%\uvnc bvba\UltraVNC\UltraVNC.ini
 )
 
