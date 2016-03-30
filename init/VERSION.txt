@@ -1,0 +1,3 @@
+VERSION INFO
+
+WPKGSetup.msi = 1.3.9-x32
