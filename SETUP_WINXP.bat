@@ -142,7 +142,7 @@ IF "%_updatemgr%"=="1" (
    IF "%_java%"=="1" choco install -y jre8
    IF "%_thunderbird%"=="1" choco install -y thunderbird
    IF "%_firefox%"=="1" choco install -y firefox
-   CHOCO INSTALL -y flashplayerplugin 7zip adobereader libreoffice ultravnc
+   CHOCO INSTALL -y flashplayerplugin flashplayeractivex 7zip adobereader libreoffice ultravnc
    COPY /y "%REMOTEDIR%\uvnc\ultravnc.ini" "%PROGRAMFILES%\uvnc bvba\UltraVNC\UltraVNC.ini
 )
 

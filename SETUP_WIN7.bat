@@ -165,7 +165,7 @@ IF "%_updatemgr%"=="1" (
    IF "%_java%"=="1" choco install -y jre8
    IF "%_thunderbird%"=="1" choco install -y thunderbird
    IF "%_firefox%"=="1" choco install -y firefox
-   CHOCO INSTALL -y flashplayerplugin 7zip notepadplusplus libreoffice ccleaner ultravnc adobereader
+   CHOCO INSTALL -y flashplayerplugin flashplayeractivex 7zip notepadplusplus libreoffice ccleaner ultravnc adobereader
    COPY /y "%REMOTEDIR%\uvnc\ultravnc.ini" "%PROGRAMFILES%\uvnc bvba\UltraVNC\UltraVNC.ini
 
    DEL "%HOMEPATH%\Desktop\UltraVNC Server.lnk"
