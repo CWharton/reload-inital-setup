@@ -1,1 +1,0 @@
-CALL "%CD%\WUInstall.exe" /install
