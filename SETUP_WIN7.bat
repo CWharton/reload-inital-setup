@@ -4,7 +4,7 @@
 :: This is a set-up script to run on user computers. Run this after installing operating system.
 ::
 ::==================================================================================
-@ECHO on
+@ECHO off
 
 SET AMAXDIR=%HOMEDRIVE%\automax
 SET INSTALLDIR=%CD%\installdir
