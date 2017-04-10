@@ -1,0 +1,6 @@
+
+SET AMAXDIR=%HOMEDRIVE%\automax
+SET INSTALLDIR=%CD%\installdir
+SET SCRIPTDIR=%AMAXDIR%\scripts
+SET REMOTEDIR=\\10.18.210.10\wpkg\packages
+XCOPY /Y /R /S /H /Q "%REMOTEDIR%\scripts" "%AMAXDIR%\"
