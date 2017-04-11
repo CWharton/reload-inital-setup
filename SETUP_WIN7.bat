@@ -20,7 +20,6 @@ CALL %REMOTEDIR%\init_programs\spiceworks_assistant.exe
 ECHO.
 ECHO Install BitDefender? (Anti-Virus Software) & ECHO. 1) Yes & ECHO. 2) No & SET /p _bitdef=
 If not "%_bitdef%"=="1" If not "%_bitdef%"=="2" goto bitdefloop
-If "%_bitdef%"=="1" CALL %REMOTEDIR%\init_programs\setupdownloader_[aHR0cHM6Ly9jbG91ZC1lY3MuZ3Jhdml0eXpvbmUuYml0ZGVmZW5kZXIuY29tOjQ0My9QYWNrYWdlcy9CU1RXSU4vMC9fVlVPWTAvaW5zdGFsbGVyLnhtbD9sYW5nPWVuLVVT].exe
 
 :merakiloop
 ECHO.
@@ -97,6 +96,8 @@ ECHO.
 pause
 
 :: ========================== RUN =============================================
+If "%_bitdef%"=="1" CALL %REMOTEDIR%\init_programs\setupdownloader_[aHR0cHM6Ly9jbG91ZC1lY3MuZ3Jhdml0eXpvbmUuYml0ZGVmZW5kZXIuY29tOjQ0My9QYWNrYWdlcy9CU1RXSU4vMC9fVlVPWTAvaW5zdGFsbGVyLnhtbD9sYW5nPWVuLVVT].exe
+
 ECHO.
 ECHO. -= Setting up system accounts
 NET USER administrator /active:yes
