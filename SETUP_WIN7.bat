@@ -96,7 +96,6 @@ ECHO.
 pause
 
 :: ========================== RUN =============================================
-If "%_bitdef%"=="1" CALL %REMOTEDIR%\init_programs\setupdownloader_[aHR0cHM6Ly9jbG91ZC1lY3MuZ3Jhdml0eXpvbmUuYml0ZGVmZW5kZXIuY29tOjQ0My9QYWNrYWdlcy9CU1RXSU4vMC9fVlVPWTAvaW5zdGFsbGVyLnhtbD9sYW5nPWVuLVVT].exe
 
 ECHO.
 ECHO. -= Setting up system accounts
@@ -190,6 +189,9 @@ IF "%_updatemgr%"=="1" (
 )
 
 CALL %REMOTEDIR%\scripts\scripts\uninstall_programs.bat
+
+If "%_bitdef%"=="1" CALL %REMOTEDIR%\init_programs\setupdownloader_[aHR0cHM6Ly9jbG91ZC1lY3MuZ3Jhdml0eXpvbmUuYml0ZGVmZW5kZXIuY29tOjQ0My9QYWNrYWdlcy9CU1RXSU4vMC9fVlVPWTAvaW5zdGFsbGVyLnhtbD9sYW5nPWVuLVVT].exe
+
 
 :: Windows Update
 IF "%_aupdate%"=="1" (
