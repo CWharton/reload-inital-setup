@@ -43,25 +43,12 @@ ECHO Install software manager (chocolatey) and other software? & ECHO. 1) Yes & 
 If not "%_updatemgr%"=="1" If not "%_updatemgr%"=="2" goto updatemgr
 
 IF "%_updatemgr%"=="1" (
+
 	:javaseloop
 	ECHO.
 	ECHO Install Java? & ECHO. 1. Yes & ECHO. 2. No & SET /p _java=
 	If not "%_java%"=="1" If not "%_java%"=="2" goto javaseloop
-
-	:thunderbirdloop
-	ECHO.
-	ECHO Install Thunderbird? & ECHO. 1. Yes & ECHO. 2. No & SET /p _thunderbird=
-	If not "%_thunderbird%"=="1" If not "%_thunderbird%"=="2" goto thunderbirdloop
-
-	:firefoxloop
-	ECHO.
-	ECHO Install FireFox? & ECHO. 1. Yes & ECHO. 2. No & SET /p _firefox=
-	If not "%_firefox%"=="1" If not "%_firefox%"=="2" goto firefoxloop
-
-	:libreofficeloop
-	ECHO.
-	ECHO Install LibreOffice? & ECHO. 1. Yes & ECHO. 2. No & SET /p _libreoffice=
-	If not "%_libreoffice%"=="1" If not "%_libreoffice%"=="2" goto libreofficeloop
+	
 )
 
 :updateloop
@@ -96,7 +83,7 @@ ECHO.
 pause
 
 :: ========================== RUN =============================================
-CALL %REMOTEDIR%\scripts\scripts\uninstall_programs.bat
+:: CALL %REMOTEDIR%\scripts\scripts\configure_local_account.bat
 
 ECHO.
 ECHO. -= Setting up system accounts
@@ -173,10 +160,7 @@ IF "%_updatemgr%"=="1" (
    
    ECHO. -= Installing additional software
    IF "%_java%"=="1" choco install -y --allow-empty-checksums jre8
-   IF "%_thunderbird%"=="1" choco install -y --allow-empty-checksums thunderbird
-   IF "%_firefox%"=="1" choco install -y --allow-empty-checksums firefox
-   IF "%_libreoffice"=="1" choco install -y --allow-empty-checksums libreoffice
-   CHOCO INSTALL -y --allow-empty-checksums flashplayerplugin flashplayeractivex 7zip notepadplusplus ccleaner ultravnc adobereader
+   CHOCO INSTALL -y --allow-empty-checksums flashplayerplugin flashplayeractivex 7zip notepadplusplus ultravnc adobereader firefox thunderbird libreoffice
    
    CALL %AMAXDIR%\scripts\refresh_vnc_config.bat
 
