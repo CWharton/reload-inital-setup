@@ -37,15 +37,6 @@ ECHO.
 ECHO Install software manager (chocolatey) and other software? & ECHO. 1) Yes & ECHO. 2) No & SET /p _updatemgr=
 If not "%_updatemgr%"=="1" If not "%_updatemgr%"=="2" goto updatemgr
 
-IF "%_updatemgr%"=="1" (
-
-	:javaseloop
-	ECHO.
-	ECHO Install Java? & ECHO. 1. Yes & ECHO. 2. No & SET /p _java=
-	If not "%_java%"=="1" If not "%_java%"=="2" goto javaseloop
-	
-)
-
 :updateloop
 ECHO.
 ECHO Run Windows Update? & ECHO. 1) Yes & ECHO. 2) No & SET /p _aupdate=
@@ -78,19 +69,7 @@ ECHO.
 pause
 
 :: ========================== RUN =============================================
-:: CALL %REMOTEDIR%\scripts\scripts\configure_local_account.bat
-
-ECHO.
-ECHO. -= Setting up system accounts
-NET USER administrator /active:yes
-regedit.exe /s "%REMOTEDIR%\win_registry\hide_admin.reg"
-SET ADMINUSER = AutomaxAdmin
-
-:: THIS WILL SET-UP ADMINISTRATOR PASSWORD SO ALL COMPUTERS ARE THE SAME
-:: (Active Directory is mainly used so never give out this password unless they are IT Admins)
-ECHO.
-ECHO. -= Setting up Administrator account
-NET USER administrator L0n9Horns!
+CALL %REMOTEDIR%\scripts\scripts\configure_local_account.bat
 
 :: Move over scripts directory
 ECHO.
@@ -152,8 +131,7 @@ IF "%_updatemgr%"=="1" (
    CALL %AMAXDIR%\scripts\install_chocolatey.bat
    
    ECHO. -= Installing additional software
-   IF "%_java%"=="1" choco install -y --allow-empty-checksums jre8
-   CHOCO INSTALL -y --allow-empty-checksums flashplayerplugin flashplayeractivex 7zip notepadplusplus ultravnc adobereader firefox thunderbird libreoffice
+   CHOCO INSTALL -y --allow-empty-checksums flashplayerplugin flashplayeractivex 7zip notepadplusplus ultravnc adobereader firefox googlechrome thunderbird libreoffice
    
    CALL %AMAXDIR%\scripts\refresh_vnc_config.bat
 
@@ -164,6 +142,10 @@ IF "%_updatemgr%"=="1" (
    DEL "%HOMEPATH%\Desktop\vncviewer.exe.lnk"
    DEL "C:\Users\Public\Desktop\CCleaner.lnk"
    DEL "C:\Users\Public\Desktop\Acrobat Reader DC.lnk"
+
+   :: Setup VNC
+   "%ProgramFiles%\uvnc bvba\UltraVNC\winvnc.exe" -install
+   "%ProgramFiles%\uvnc bvba\UltraVNC\winvnc.exe" -startservice
 )
 
 If "%_bitdef%"=="1" CALL %REMOTEDIR%\init_programs\setupdownloader_[aHR0cHM6Ly9jbG91ZC1lY3MuZ3Jhdml0eXpvbmUuYml0ZGVmZW5kZXIuY29tOjQ0My9QYWNrYWdlcy9CU1RXSU4vMC9fVlVPWTAvaW5zdGFsbGVyLnhtbD9sYW5nPWVuLVVT].exe
