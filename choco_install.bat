@@ -1,0 +1,1 @@
+CHOCO INSTALL -y flashplayerplugin flashplayeractivex 7zip notepadplusplus ultravnc adobereader firefox googlechrome thunderbird libreoffice

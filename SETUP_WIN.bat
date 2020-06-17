@@ -91,7 +91,7 @@ IF EXIST "%AMAXDIR%\scripts\refresh_desktop_icons.bat" (
 :: Move over group policy
 ECHO.
 ECHO. -= Creating group policy
-IF EXIST "%AMAXDIR%\scripts\refresh_time_server.bat" (
+IF EXIST "%AMAXDIR%\scripts\refresh_group_policy.bat" (
 	CALL %AMAXDIR%\scripts\refresh_group_policy.bat
 )
 
