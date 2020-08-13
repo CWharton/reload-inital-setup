@@ -6,12 +6,12 @@
 ::==================================================================================
 @ECHO off
 
-CALL NET USE X: \\10.18.210.10 user /user:user
+CALL NET USE X: \\10.18.210.10\wpkg user /user:user
 
 SET AMAXDIR=%HOMEDRIVE%\automax
 SET INSTALLDIR=%CD%\installdir
 SET SCRIPTDIR=%AMAXDIR%\scripts
-SET REMOTEDIR=X:\wpkg\packages
+SET REMOTEDIR=X:\packages
 
 CALL %~dp0\scripts\header.bat
 
