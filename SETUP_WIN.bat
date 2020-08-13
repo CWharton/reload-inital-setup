@@ -6,11 +6,12 @@
 ::==================================================================================
 @ECHO off
 
+CALL NET USE X: \\10.18.210.10 user /user:user
+
 SET AMAXDIR=%HOMEDRIVE%\automax
 SET INSTALLDIR=%CD%\installdir
 SET SCRIPTDIR=%AMAXDIR%\scripts
-SET REMOTEDIR=\\10.18.210.10\wpkg\packages
-
+SET REMOTEDIR=X:\wpkg\packages
 
 CALL %~dp0\scripts\header.bat
 
@@ -131,7 +132,7 @@ IF "%_updatemgr%"=="1" (
    CALL %AMAXDIR%\scripts\install_chocolatey.bat
    
    ECHO. -= Installing additional software
-   CHOCO INSTALL -y --allow-empty-checksums flashplayerplugin flashplayeractivex 7zip notepadplusplus ultravnc adobereader firefox googlechrome thunderbird libreoffice
+   CHOCO INSTALL -y --allow-empty-checksums 7zip notepadplusplus ultravnc adobereader firefox googlechrome thunderbird libreoffice
    
    CALL %AMAXDIR%\scripts\refresh_vnc_config.bat
 
@@ -149,6 +150,8 @@ IF "%_updatemgr%"=="1" (
 )
 
 If "%_bitdef%"=="1" CALL %REMOTEDIR%\init_programs\setupdownloader_[aHR0cHM6Ly9jbG91ZC1lY3MuZ3Jhdml0eXpvbmUuYml0ZGVmZW5kZXIuY29tOjQ0My9QYWNrYWdlcy9CU1RXSU4vMC9fVlVPWTAvaW5zdGFsbGVyLnhtbD9sYW5nPWVuLVVT].exe
+
+CALL NET USE X: /delete
 
 :: Windows Update
 IF "%_aupdate%"=="1" (
