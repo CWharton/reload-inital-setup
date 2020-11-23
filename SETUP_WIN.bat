@@ -17,38 +17,6 @@ CALL %~dp0\scripts\header.bat
 
 CALL %REMOTEDIR%\init_programs\spiceworks_assistant.exe
 
-:bitdefloop
-ECHO.
-ECHO Install BitDefender? (Anti-Virus Software) & ECHO. 1) Yes & ECHO. 2) No & SET /p _bitdef=
-If not "%_bitdef%"=="1" If not "%_bitdef%"=="2" goto bitdefloop
-
-:merakiloop
-ECHO.
-ECHO Install Meraki Agent? (ONLY MOBILE DEVICES) & ECHO. 1) Yes & ECHO. 2) No & SET /p _meraki=
-If not "%_meraki%"=="1" If not "%_meraki%"=="2" goto merakiloop
-If "%_meraki%"=="1" msiexec /i %REMOTEDIR%\init_programs\MerakiSM-Agent-automax.msi /quiet /qn /norestart
-
-:weblinkloop
-ECHO.
-ECHO Add default Desktop links? & ECHO. 1) Yes & ECHO. 2) No & SET /p _weblink=
-If not "%_weblink%"=="1" If not "%_weblink%"=="2" goto weblinkloop
-
-:updatemgr
-ECHO.
-ECHO Install software manager (chocolatey) and other software? & ECHO. 1) Yes & ECHO. 2) No & SET /p _updatemgr=
-If not "%_updatemgr%"=="1" If not "%_updatemgr%"=="2" goto updatemgr
-
-:updateloop
-ECHO.
-ECHO Run Windows Update? & ECHO. 1) Yes & ECHO. 2) No & SET /p _aupdate=
-If not "%_aupdate%"=="1" If not "%_aupdate%"=="2" goto updateloop
-
-:loop
-ECHO.
-ECHO The installation process is about to start?
-ECHO Would You like to restart computer when completed? & ECHO. 1) Yes & ECHO. 2) No & SET /p _restart=
-If not "%_restart%"=="1" If not "%_restart%"=="2" goto loop
-
 CALL %~dp0\scripts\header.bat
 ECHO.
 ECHO.
@@ -114,13 +82,6 @@ IF "%_osupgrade%"=="1" (
    regedit.exe /S %REMOTEDIR%\win_registry\DisableOSUpgrade.reg
 )
 
-:: Setup desktop web links
-IF "%_weblink%"=="1" (
-   ECHO.
-   ECHO. -= Added links to desktop.
-   CSCRIPT "%~dp0\scripts\weblink.vbs"
-)
-
 :: BGINFO
 ECHO.
 ECHO. -= Installing BGInfo for desktop
@@ -128,40 +89,29 @@ reg add "HKLM\Software\Microsoft\Windows\CurrentVersion\Run" /v BGInfo /t REG_SZ
 %AMAXDIR%\bginfo\bginfo.exe /accepteula /i%AMAXDIR%\bginfo\bginfo.bgi /timer:0
 
 :: Software Manager
-IF "%_updatemgr%"=="1" (
-   CALL %AMAXDIR%\scripts\install_chocolatey.bat
-   
-   ECHO. -= Installing additional software
-   CHOCO INSTALL -y --allow-empty-checksums 7zip notepadplusplus ultravnc adobereader firefox googlechrome thunderbird libreoffice
-   
-   CALL %AMAXDIR%\scripts\refresh_vnc_config.bat
+CALL %AMAXDIR%\scripts\install_chocolatey.bat
 
-   DEL "%HOMEPATH%\Desktop\UltraVNC Server.lnk"
-   DEL "%HOMEPATH%\Desktop\UltraVNC Settings.lnk"
-   DEL "%HOMEPATH%\Desktop\UltraVNC Viewer.lnk"
-   DEL "%HOMEPATH%\Desktop\uvnc_settings.lnk"
-   DEL "%HOMEPATH%\Desktop\vncviewer.exe.lnk"
-   DEL "C:\Users\Public\Desktop\CCleaner.lnk"
-   DEL "C:\Users\Public\Desktop\Acrobat Reader DC.lnk"
+ECHO. -= Installing additional software
+CHOCO INSTALL -y --allow-empty-checksums 7zip notepadplusplus ultravnc adobereader firefox googlechrome thunderbird libreoffice
 
-   :: Setup VNC
-   "%ProgramFiles%\uvnc bvba\UltraVNC\winvnc.exe" -install
-   "%ProgramFiles%\uvnc bvba\UltraVNC\winvnc.exe" -startservice
-)
+CALL %AMAXDIR%\scripts\refresh_vnc_config.bat
 
-If "%_bitdef%"=="1" CALL %REMOTEDIR%\init_programs\setupdownloader_[aHR0cHM6Ly9jbG91ZC1lY3MuZ3Jhdml0eXpvbmUuYml0ZGVmZW5kZXIuY29tOjQ0My9QYWNrYWdlcy9CU1RXSU4vMC9fVlVPWTAvaW5zdGFsbGVyLnhtbD9sYW5nPWVuLVVT].exe
+DEL "%HOMEPATH%\Desktop\UltraVNC Server.lnk"
+DEL "%HOMEPATH%\Desktop\UltraVNC Settings.lnk"
+DEL "%HOMEPATH%\Desktop\UltraVNC Viewer.lnk"
+DEL "%HOMEPATH%\Desktop\uvnc_settings.lnk"
+DEL "%HOMEPATH%\Desktop\vncviewer.exe.lnk"
+DEL "C:\Users\Public\Desktop\CCleaner.lnk"
+DEL "C:\Users\Public\Desktop\Acrobat Reader DC.lnk"
+
+:: Setup VNC
+"%ProgramFiles%\uvnc bvba\UltraVNC\winvnc.exe" -install
+"%ProgramFiles%\uvnc bvba\UltraVNC\winvnc.exe" -startservice
+
+:: Install bitdefender
+CALL %REMOTEDIR%\init_programs\setupdownloader_[aHR0cHM6Ly9jbG91ZC1lY3MuZ3Jhdml0eXpvbmUuYml0ZGVmZW5kZXIuY29tOjQ0My9QYWNrYWdlcy9CU1RXSU4vMC9fVlVPWTAvaW5zdGFsbGVyLnhtbD9sYW5nPWVuLVVT].exe
 
 CALL NET USE X: /delete
 
-:: Windows Update
-IF "%_aupdate%"=="1" (
-   ECHO. -= Running windows update (This may take a while)
-   CALL "%AMAXDIR%\tools\WUInstall.exe" /install
-)
-
-:: Restart Computer
-IF "%_restart%"=="1" (
-   ECHO. -= Finally it is time to reboot the system.
-   ECHO. -= HAVE A GREAT DAY !!!
-   CALL "%AMAXDIR%\tools\psshutdown" -r -f -c -m "Rebooting for latest updates. If canceled please manually reboot." -accepteula
-)
+ECHO. -= Running windows update (This may take a while)
+CALL "%AMAXDIR%\tools\WUInstall.exe" /install
