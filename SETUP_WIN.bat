@@ -58,11 +58,11 @@ IF EXIST "%AMAXDIR%\scripts\refresh_desktop_icons.bat" (
 )
 
 :: Move over group policy
-ECHO.
-ECHO. -= Creating group policy
-IF EXIST "%AMAXDIR%\scripts\refresh_group_policy.bat" (
-	CALL %AMAXDIR%\scripts\refresh_group_policy.bat
-)
+::ECHO.
+::ECHO. -= Creating group policy
+::IF EXIST "%AMAXDIR%\scripts\refresh_group_policy.bat" (
+::	CALL %AMAXDIR%\scripts\refresh_group_policy.bat
+::)
 
 :: System I.T. Info
 ECHO.
@@ -74,13 +74,6 @@ ECHO. -= Creating routine system tasks
 SCHTASKS /CREATE /TN "maintenance_daily" /XML "%REMOTEDIR%\schedules_win7\maintenance_daily.xml"
 SCHTASKS /CREATE /TN "maintenance_weekly" /XML "%REMOTEDIR%\schedules_win7\maintenance_weekly.xml"
 
-:: Setup desktop web links
-IF "%_osupgrade%"=="1" (
-   ECHO.
-   ECHO. -= Turning off OS Upgrade.
-   regedit.exe /S %REMOTEDIR%\win_registry\DisableGWX.reg
-   regedit.exe /S %REMOTEDIR%\win_registry\DisableOSUpgrade.reg
-)
 
 :: BGINFO
 ECHO.
@@ -90,26 +83,6 @@ reg add "HKLM\Software\Microsoft\Windows\CurrentVersion\Run" /v BGInfo /t REG_SZ
 
 :: Software Manager
 CALL %AMAXDIR%\scripts\install_chocolatey.bat
-
-ECHO. -= Installing additional software
-CHOCO INSTALL -y --allow-empty-checksums 7zip notepadplusplus ultravnc adobereader firefox googlechrome thunderbird libreoffice
-
-CALL %AMAXDIR%\scripts\refresh_vnc_config.bat
-
-DEL "%HOMEPATH%\Desktop\UltraVNC Server.lnk"
-DEL "%HOMEPATH%\Desktop\UltraVNC Settings.lnk"
-DEL "%HOMEPATH%\Desktop\UltraVNC Viewer.lnk"
-DEL "%HOMEPATH%\Desktop\uvnc_settings.lnk"
-DEL "%HOMEPATH%\Desktop\vncviewer.exe.lnk"
-DEL "C:\Users\Public\Desktop\CCleaner.lnk"
-DEL "C:\Users\Public\Desktop\Acrobat Reader DC.lnk"
-
-:: Setup VNC
-"%ProgramFiles%\uvnc bvba\UltraVNC\winvnc.exe" -install
-"%ProgramFiles%\uvnc bvba\UltraVNC\winvnc.exe" -startservice
-
-:: Install bitdefender
-CALL %REMOTEDIR%\init_programs\setupdownloader_[aHR0cHM6Ly9jbG91ZC1lY3MuZ3Jhdml0eXpvbmUuYml0ZGVmZW5kZXIuY29tOjQ0My9QYWNrYWdlcy9CU1RXSU4vMC9fVlVPWTAvaW5zdGFsbGVyLnhtbD9sYW5nPWVuLVVT].exe
 
 CALL NET USE X: /delete
 
