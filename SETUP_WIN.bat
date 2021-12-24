@@ -21,7 +21,7 @@ CALL %~dp0\scripts\header.bat
 ECHO.
 ECHO.
 ECHO.
-ECHO. Automax initial setup finished.
+ECHO. Killeen Auto initial setup finished.
 ECHO.
 ECHO. Now we have to complete the task you want.
 ECHO. This can take a while so grab yourself a cold beer and watch me work :)
@@ -32,7 +32,7 @@ ECHO.
 ECHO.
 ECHO.
 ECHO.
-ECHO. Copyright C 2009-2016 Automax All rights reserved
+ECHO. Copyright C 2021 Killeen Auto All rights reserved
 ECHO.
 ECHO.
 pause
@@ -86,5 +86,11 @@ CALL %AMAXDIR%\scripts\install_chocolatey.bat
 
 CALL NET USE X: /delete
 
-ECHO. -= Running windows update (This may take a while)
-CALL "%AMAXDIR%\tools\WUInstall.exe" /install
+ECHO.
+ECHO.
+ECHO.
+ECHO.
+ECHO. ___________  ALL TASKS COMPLETED  ___________ 
+ECHO.
+ECHO.
+pause
