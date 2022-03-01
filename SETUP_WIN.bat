@@ -6,7 +6,7 @@
 ::==================================================================================
 @ECHO off
 
-CALL NET USE X: \\10.18.210.10\wpkg user /user:user
+CALL NET USE X: \\10.18.210.9\wpkg user /user:user
 
 SET AMAXDIR=%HOMEDRIVE%\automax
 SET INSTALLDIR=%CD%\installdir
