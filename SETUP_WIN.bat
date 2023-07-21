@@ -16,6 +16,8 @@ SET REMOTEDIR=X:\packages
 CALL %~dp0\scripts\header.bat
 
 CALL %REMOTEDIR%\init_programs\spiceworks_assistant.exe
+SET /P id=Enter computers name: 
+
 
 CALL %~dp0\scripts\header.bat
 ECHO.
@@ -36,6 +38,14 @@ ECHO. Copyright C 2021 Killeen Auto All rights reserved
 ECHO.
 ECHO.
 pause
+
+:: ========================== SET NAME =============================================
+setlocal
+wmic bios get serialnumber | find /I /V "SerialNumber" > "%temp%\sn.txt"
+set /p comp_name=<"%temp%\sn.txt"
+wmic computersystem where name="%computername%" rename name=%comp_name%
+del "%temp%\sn.txt"
+endlocal
 
 :: ========================== RUN =============================================
 CALL %REMOTEDIR%\scripts\scripts\configure_local_account.bat
@@ -75,6 +85,9 @@ SCHTASKS /CREATE /TN "maintenance_daily" /XML "%REMOTEDIR%\schedules_win7\mainte
 SCHTASKS /CREATE /TN "maintenance_weekly" /XML "%REMOTEDIR%\schedules_win7\maintenance_weekly.xml"
 
 
+:: ========================== INSTALL SIEM AGENT =============================================
+PowerShell -NoProfile -ExecutionPolicy Bypass -Command "Invoke-WebRequest -Uri https://packages.wazuh.com/4.x/windows/wazuh-agent-4.4.5-1.msi -OutFile ${env:tmp}\wazuh-agent.msi; msiexec.exe /i ${env:tmp}\wazuh-agent.msi /q WAZUH_MANAGER='siem.killeenauto.local' WAZUH_REGISTRATION_SERVER='siem.killeenauto.local' WAZUH_AGENT_GROUP='default'"
+
 :: BGINFO
 ECHO.
 ECHO. -= Installing BGInfo for desktop
@@ -83,6 +96,9 @@ reg add "HKLM\Software\Microsoft\Windows\CurrentVersion\Run" /v BGInfo /t REG_SZ
 
 :: Software Manager
 CALL %AMAXDIR%\scripts\install_chocolatey.bat
+
+:: ========================== START SIEM AGENT =============================================
+NET START WazuhSvc
 
 CALL NET USE X: /delete
 
